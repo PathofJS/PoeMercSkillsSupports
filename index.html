@@ -1,63 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skill and Support Selector</title>
+    <title>Mercenary Skills</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
+            background-color: #1a1a1a;
+            color: #f0e6d2;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            width: 100%;
             max-width: 800px;
-            margin: auto;
+            box-sizing: border-box;
         }
-        .form-group {
-            margin-bottom: 15px;
+        h1 {
+            color: #ffe066;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: bold;
+            color: #bfa76a;
         }
         select {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            background-color: white; /* Ensure consistent background */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #3a3a3a;
+            color: #f0e6d2;
+            font-size: 1em;
+            appearance: none; /* Remove default arrow */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23f0e6d2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-6.4H18.4c-5%200-9.3%201.8-13.2%206.4-3.9%204.6-5.8%2010-5.8%2016v148.8c0%206%201.9%2011.4%205.8%2016s8.2%206.4%2013.2%206.4h255.4c5%200%209.3-1.8%2013.2-6.4s5.8-10%205.8-16V85.4c0-6-1.9-11.4-5.8-16z%22%2F%3E%3Cpath%20fill%3D%22%231a1a1a%22%20d%3D%22M243.6%20114.4L146.2%20211.8c-1.8%201.8-4.2%202.7-6.6%202.7s-4.8-.9-6.6-2.7L45.4%20114.4c-3.6-3.6-3.6-9.4%200-13s9.4-3.6%2013%200L146.2%20192.2l87.8-87.8c3.6-3.6%209.4-3.6%2013%200s3.6%209.4%200%2013z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px;
         }
+        .skill-details, .support-details {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #444;
+        }
+        .skill-details h2, .support-details h2 {
+            color: #ffe066;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .skill-description {
+            font-style: italic;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        .support-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .support-list li {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #444;
+        }
+        .support-list li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .support-name {
+            font-weight: bold;
+            color: #bfa76a;
+        }
+        .support-description {
+            color: #ccc;
+            font-size: 0.9em;
+        }
+        .no-supports {
+            color: #888;
+            font-style: italic;
+        }
+        .error-message {
+            color: #ff6666;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+        /* New styles for the support gem selection group */
         .support-group {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
         .support-select-wrapper {
-            position: relative;
+            flex: 1;
+            min-width: 200px; /* Adjust as needed for responsiveness */
         }
-        /* Optional: Style for disabled options */
-        option:disabled {
-            color: #ccc;
+        @media (max-width: 600px) {
+            .support-group {
+                flex-direction: column;
+            }
+            .support-select-wrapper {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>Skill and Support Gem Selector</h1>
 
         <div class="form-group">
             <label for="skillSelect">Select a Skill:</label>
             <select id="skillSelect">
-                </select>
+                <option value="">Loading skills...</option>
+            </select>
+        </div>
+
+        <div id="skill-description-display" class="skill-details">
+            <h2>Skill Description</h2>
+            <p id="skill-description-text" class="skill-description">Select a skill from the dropdown to see its details.</p>
         </div>
 
         <div class="support-group">
@@ -80,165 +161,35 @@
                 </select>
             </div>
         </div>
+
+        <div id="selected-supports-display" class="support-details">
+            <h2>Selected Supports</h2>
+            <div id="support-list-display" class="support-list">
+                <p class="no-supports">No supports selected.</p>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Data from your JSONs
-        const supportGems = [
-            { "_index": 0, "Id": "MultipleProjectilesLow", "Stat": "173", "StatValues": "2", "Name": "Lesser Multiple Projectiles", "GemIcon": "Art/2DItems/Gems/Support/LesserMultipleProjectiles.dds" },
-            { "_index": 1, "Id": "MultipleProjectilesHigh", "Stat": "173", "StatValues": "3", "Name": "Greater Multiple Projectiles", "GemIcon": "Art/2DItems/Gems/Support/GreaterMultipleProjectiles.dds" },
-            { "_index": 2, "Id": "CausticArrowSpecificChaosConvertHigh", "Stat": "1102", "StatValues": "40", "Name": "Gilded Caustic Conversion", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 3, "Id": "HolyMoltenStrikeSpecificLightningExposureHigh", "Stat": "10712", "StatValues": "30", "Name": "Gilded Exposure on Hit", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 4, "Id": "MeleeSplashHigh", "Stat": "3838, 1246, 1248", "StatValues": "35, 1, -30", "Name": "Melee Splash", "GemIcon": "Art/2DItems/Gems/Support/Splash.dds" },
-            { "_index": 5, "Id": "LightningArrowSpecificAddedTargetsHigh", "Stat": "788", "StatValues": "2", "Name": "Gilded Extra Targets", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 6, "Id": "AdditionalChainsLow", "Stat": "172", "StatValues": "1", "Name": "Lesser Chain", "GemIcon": "Art/2DItems/Gems/Support/chain.dds" },
-            { "_index": 7, "Id": "AdditionalChainsMid", "Stat": "172", "StatValues": "3", "Name": "Chain", "GemIcon": "Art/2DItems/Gems/Support/chain.dds" },
-            { "_index": 8, "Id": "ShieldCrushSpecificAttackDamageFromShieldHigh", "Stat": "11372", "StatValues": "3", "Name": "Gilded Shield Damage", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 9, "Id": "ConsecratedPathSpecificDamageGainHigh", "Stat": "4723", "StatValues": "40", "Name": "Gilded Consecration", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 10, "Id": "BladeFallSpecificAddedVolleysHigh", "Stat": "7939", "StatValues": "2", "Name": "Gilded Volleys", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 11, "Id": "SpellCascadeLow", "Stat": "6851", "StatValues": "1", "Name": "Lesser Spell Cascade", "GemIcon": "Art/2DItems/Gems/Support/SpellCascade.dds" },
-            { "_index": 12, "Id": "SpellCascadeHigh", "Stat": "6851", "StatValues": "2", "Name": "Spell Cascade", "GemIcon": "Art/2DItems/Gems/Support/SpellCascade.dds" },
-            { "_index": 13, "Id": "FlickerStrikeSpecificConsumeAllImpalesHigh", "Stat": "18311", "StatValues": "50", "Name": "Gilded Impale Extraction", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 14, "Id": "ScourgeArrowAltSpecificPodCountHigh", "Stat": "19474", "StatValues": "1", "Name": "Gilded Additional Pods", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 15, "Id": "CycloneSpecificMoveSpeedHigh", "Stat": "1230", "StatValues": "35", "Name": "Gilded Faster Cyclone", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 16, "Id": "HolyRelicSpecificRegenHigh", "Stat": "10248", "StatValues": "1500", "Name": "Gilded Relic Recovery", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 17, "Id": "BladestormSpecificAdditionalStormHigh", "Stat": "9285", "StatValues": "1", "Name": "Gilded Maximum Storms", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 18, "Id": "PerforateSpecificSpikesHigh", "Stat": "9316", "StatValues": "2", "Name": "Gilded Maximum Spikes", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 19, "Id": "SacredWispsHigh", "Stat": "20115", "StatValues": "1", "Name": "Greater Sacred Wisps", "GemIcon": "Art/2DItems/Gems/Support/WandWispSupport.dds" },
-            { "_index": 20, "Id": "VigilantStrikeSpecificShareFortifyHigh", "Stat": "5814", "StatValues": "8", "Name": "Gilded Fortification", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 21, "Id": "HeavyStrikeSpecificMoreMaxPhysHigh", "Stat": "5676", "StatValues": "40", "Name": "Gilded Heft", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 22, "Id": "ForkHigh", "Stat": "1113", "StatValues": "1", "Name": "Greater Fork", "GemIcon": "Art/2DItems/Gems/Support/Fork.dds" },
-            { "_index": 23, "Id": "BleedLow", "Stat": "3625, 5344", "StatValues": "20, 20", "Name": "Lesser Chance to Bleed", "GemIcon": "Art/2DItems/Gems/Support/ChanceToBleed.dds" },
-            { "_index": 24, "Id": "BleedMid", "Stat": "3625, 5344", "StatValues": "35, 20", "Name": "Chance to Bleed", "GemIcon": "Art/2DItems/Gems/Support/ChanceToBleed.dds" },
-            { "_index": 25, "Id": "BleedHigh", "Stat": "3625, 5344", "StatValues": "50, 40", "Name": "Greater Chance to Bleed", "GemIcon": "Art/2DItems/Gems/Support/ChanceToBleed.dds" },
-            { "_index": 26, "Id": "AddedChaosLow", "Stat": "64, 65", "StatValues": "10, 16", "Name": "Lesser Added Chaos", "GemIcon": "Art/2DItems/Gems/Support/AddedChaosDamage.dds" },
-            { "_index": 27, "Id": "AddedChaosMid", "Stat": "64, 65", "StatValues": "33, 49", "Name": "Added Chaos", "GemIcon": "Art/2DItems/Gems/Support/AddedChaosDamage.dds" },
-            { "_index": 28, "Id": "AddedChaosHigh", "Stat": "64, 65", "StatValues": "73, 109", "Name": "Greater Added Chaos", "GemIcon": "Art/2DItems/Gems/Support/AddedChaosDamage.dds" },
-            { "_index": 29, "Id": "EnduringCrySpecificOnslaughtGainHigh", "Stat": "12082", "StatValues": "1", "Name": "Gilded Onslaught on Cry", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 30, "Id": "WarcryRageLow", "Stat": "7458", "StatValues": "10", "Name": "Lesser Raging Cry", "GemIcon": "Art/2DItems/Gems/Support/MercSilverStrSupportGem.dds" },
-            { "_index": 31, "Id": "WarcryRageMid", "Stat": "7458", "StatValues": "15", "Name": "Raging Cry", "GemIcon": "Art/2DItems/Gems/Support/MercSilverStrSupportGem.dds" },
-            { "_index": 32, "Id": "WarcryRageHigh", "Stat": "7458", "StatValues": "20", "Name": "Greater Raging Cry", "GemIcon": "Art/2DItems/Gems/Support/MercSilverStrSupportGem.dds" },
-            { "_index": 33, "Id": "PoisonChanceLow", "Stat": "3364", "StatValues": "20", "Name": "Lesser Chance to Poison", "GemIcon": "Art/2DItems/Gems/Support/Poison.dds" },
-            { "_index": 34, "Id": "PoisonChanceMid", "Stat": "3364", "StatValues": "35", "Name": "Chance to Poison", "GemIcon": "Art/2DItems/Gems/Support/Poison.dds" },
-            { "_index": 35, "Id": "PoisonChanceHigh", "Stat": "3364", "StatValues": "50", "Name": "Greater Chance to Poison", "GemIcon": "Art/2DItems/Gems/Support/Poison.dds" },
-            { "_index": 36, "Id": "DarkPactSpecificMaledictionOnHitHigh", "Stat": "12139", "StatValues": "1", "Name": "Gilded Malediction", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 37, "Id": "CastSpeedLow", "Stat": "216", "StatValues": "15", "Name": "Lesser Faster Casting", "GemIcon": "Art/2DItems/Gems/Support/FasterCast.dds" },
-            { "_index": 38, "Id": "CastSpeedMid", "Stat": "216", "StatValues": "25", "Name": "Faster Casting", "GemIcon": "Art/2DItems/Gems/Support/FasterCast.dds" },
-            { "_index": 39, "Id": "CastSpeedHigh", "Stat": "216", "StatValues": "35", "Name": "Greater Faster Casting", "GemIcon": "Art/2DItems/Gems/Support/FasterCast.dds" },
-            { "_index": 40, "Id": "KnockbackLow", "Stat": "110, 401", "StatValues": "1, 40", "Name": "Knockback", "GemIcon": "Art/2DItems/Gems/Support/Knockback.dds" },
-            { "_index": 41, "Id": "StormRainSpecificNumberOfBurstsHigh", "Stat": "14373", "StatValues": "2", "Name": "Gilded Additional Pulses", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 42, "Id": "LightningDamageLuckyHigh", "Stat": "11414", "StatValues": "1", "Name": "Greater Lucky Lightning Damage", "GemIcon": "Art/2DItems/Gems/Support/MercSilverIntSupportGem.dds" },
-            { "_index": 43, "Id": "GenerosityLow", "Stat": "2409, 3834", "StatValues": "1, 10", "Name": "Lesser Generosity", "GemIcon": "Art/2DItems/Gems/Support/GenerositySupport.dds" },
-            { "_index": 44, "Id": "GenerosityMid", "Stat": "2409, 3834", "StatValues": "1, 20", "Name": "Generosity", "GemIcon": "Art/2DItems/Gems/Support/GenerositySupport.dds" },
-            { "_index": 45, "Id": "GenerosityHigh", "Stat": "2409, 3834", "StatValues": "1, 30", "Name": "Greater Generosity", "GemIcon": "Art/2DItems/Gems/Support/GenerositySupport.dds" },
-            { "_index": 46, "Id": "FortifyHigh", "Stat": "5406", "StatValues": "1", "Name": "Greater Fortify", "GemIcon": "Art/2DItems/Gems/Support/FortifyGem.dds" },
-            { "_index": 47, "Id": "FlameLinkSpecificAddedFlatHigh", "Stat": "14813, 14814", "StatValues": "38, 56", "Name": "Gilded Empowered Link", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 48, "Id": "IceCrashSpecificTertiaryRadiusHigh", "Stat": "18301", "StatValues": "5", "Name": "Gilded Icecrash Radius", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 49, "Id": "IncreaseDurationLow", "Stat": "20687", "StatValues": "15", "Name": "Lesser More Duration", "GemIcon": "Art/2DItems/Gems/Support/IncreasedDuration.dds" },
-            { "_index": 50, "Id": "IncreaseDurationMid", "Stat": "20687", "StatValues": "25", "Name": "More Duration", "GemIcon": "Art/2DItems/Gems/Support/IncreasedDuration.dds" },
-            { "_index": 51, "Id": "IncreaseDurationHigh", "Stat": "20687", "StatValues": "40", "Name": "Greater More Duration", "GemIcon": "Art/2DItems/Gems/Support/IncreasedDuration.dds" },
-            { "_index": 52, "Id": "ReduceDurationLow", "Stat": "20687", "StatValues": "-15", "Name": "Lesser Less Duration", "GemIcon": "Art/2DItems/Gems/Support/ReduceDuration.dds" },
-            { "_index": 53, "Id": "ReduceDurationMid", "Stat": "20687", "StatValues": "-25", "Name": "Less Duration", "GemIcon": "Art/2DItems/Gems/Support/ReduceDuration.dds" },
-            { "_index": 54, "Id": "ReduceDurationHigh", "Stat": "20687", "StatValues": "-40", "Name": "Greater Less Duration", "GemIcon": "Art/2DItems/Gems/Support/ReduceDuration.dds" },
-            { "_index": 55, "Id": "DamageOverTimeReduceDurationLow", "Stat": "3458, 14543", "StatValues": "15, -20", "Name": "Lesser Swift Affliction", "GemIcon": "Art/2DItems/Gems/Support/SupportRapidDecayGem.dds" },
-            { "_index": 56, "Id": "DamageOverTimeReduceDurationMid", "Stat": "3458, 14543", "StatValues": "20, -20", "Name": "Swift Affliction", "GemIcon": "Art/2DItems/Gems/Support/SupportRapidDecayGem.dds" },
-            { "_index": 57, "Id": "DamageOverTimeReduceDurationHigh", "Stat": "3458, 14543", "StatValues": "30, -20", "Name": "Greater Swift Affliction", "GemIcon": "Art/2DItems/Gems/Support/SupportRapidDecayGem.dds" },
-            { "_index": 58, "Id": "CurseEffectHigh", "Stat": "1385", "StatValues": "20", "Name": "Greater Curse Effect", "GemIcon": "Art/2DItems/Gems/Support/MercSilverIntSupportGem.dds" },
-            { "_index": 59, "Id": "HypothermiaLow", "Stat": "2911, 7924", "StatValues": "15, 15", "Name": "Lesser Hypothermia", "GemIcon": "Art/2DItems/Gems/Support/DamageAgainstChilled.dds" },
-            { "_index": 60, "Id": "HypothermiaMid", "Stat": "2911, 7924", "StatValues": "20, 20", "Name": "Hypothermia", "GemIcon": "Art/2DItems/Gems/Support/DamageAgainstChilled.dds" },
-            { "_index": 61, "Id": "HypothermiaHigh", "Stat": "2911, 7924", "StatValues": "30, 30", "Name": "Greater Hypothermia", "GemIcon": "Art/2DItems/Gems/Support/DamageAgainstChilled.dds" },
-            { "_index": 62, "Id": "StrikeRangeLow", "Stat": "1229", "StatValues": "2", "Name": "Lesser Strike Distance", "GemIcon": "Art/2DItems/Gems/Support/MercSilverStrSupportGem.dds" },
-            { "_index": 63, "Id": "StrikeRangeMid", "Stat": "1229", "StatValues": "4", "Name": "Strike Distance", "GemIcon": "Art/2DItems/Gems/Support/MercSilverStrSupportGem.dds" },
-            { "_index": 64, "Id": "StrikeRangeHigh", "Stat": "1229", "StatValues": "6", "Name": "Greater Strike Distance", "GemIcon": "Art/2DItems/Gems/Support/MercSilverStrSupportGem.dds" },
-            { "_index": 65, "Id": "CooldownSpeedLow", "Stat": "3335", "StatValues": "20", "Name": "Lesser Cooldown Recovery", "GemIcon": "Art/2DItems/Gems/Support/MercSilverIntSupportGem.dds" },
-            { "_index": 66, "Id": "CooldownSpeedMid", "Stat": "3335", "StatValues": "30", "Name": "Cooldown Recovery", "GemIcon": "Art/2DItems/Gems/Support/MercSilverIntSupportGem.dds" },
-            { "_index": 67, "Id": "CooldownSpeedHigh", "Stat": "3335", "StatValues": "40", "Name": "Greater Cooldown Recovery", "GemIcon": "Art/2DItems/Gems/Support/MercSilverIntSupportGem.dds" },
-            { "_index": 68, "Id": "ColdPenetrationLow", "Stat": "593", "StatValues": "8", "Name": "Lesser Cold Penetration", "GemIcon": "Art/2DItems/Gems/Support/ColdPenetration.dds" },
-            { "_index": 69, "Id": "ColdPenetrationMid", "Stat": "593", "StatValues": "10", "Name": "Cold Penetration", "GemIcon": "Art/2DItems/Gems/Support/ColdPenetration.dds" },
-            { "_index": 70, "Id": "ColdPenetrationHigh", "Stat": "593", "StatValues": "12", "Name": "Greater Cold Penetration", "GemIcon": "Art/2DItems/Gems/Support/ColdPenetration.dds" },
-            { "_index": 71, "Id": "LightningPenetrationLow", "Stat": "594", "StatValues": "8", "Name": "Lesser Lightning Penetration", "GemIcon": "Art/2DItems/Gems/Support/LightningPenetration.dds" },
-            { "_index": 72, "Id": "LightningPenetrationMid", "Stat": "594", "StatValues": "10", "Name": "Lightning Penetration", "GemIcon": "Art/2DItems/Gems/Support/LightningPenetration.dds" },
-            { "_index": 73, "Id": "LightningPenetrationHigh", "Stat": "594", "StatValues": "12", "Name": "Greater Lightning Penetration", "GemIcon": "Art/2DItems/Gems/Support/LightningPenetration.dds" },
-            { "_index": 74, "Id": "ArrowNovaHigh", "Stat": "1776, 10517, 10622, 10944, 173", "StatValues": "1, 1, 1, 1, 3", "Name": "Arrow Nova", "GemIcon": "Art/2DItems/Gems/Support/GreenRainSupportGem.dds" },
-            { "_index": 75, "Id": "ExplosiveArrowSpecificMaxHigh", "Stat": "11500", "StatValues": "2", "Name": "Gilded Maximum Explosions", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 76, "Id": "VolcanicFissureSpecificRepeatHigh", "Stat": "17309", "StatValues": "1", "Name": "Gilded Additional Fissures", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 77, "Id": "FirePenetrationLow", "Stat": "592", "StatValues": "8", "Name": "Lesser Fire Penetration", "GemIcon": "Art/2DItems/Gems/Support/FirePenetration.dds" },
-            { "_index": 78, "Id": "FirePenetrationMid", "Stat": "592", "StatValues": "10", "Name": "Fire Penetration", "GemIcon": "Art/2DItems/Gems/Support/FirePenetration.dds" },
-            { "_index": 79, "Id": "FirePenetrationHigh", "Stat": "592", "StatValues": "12", "Name": "Greater Fire Penetration", "GemIcon": "Art/2DItems/Gems/Support/FirePenetration.dds" },
-            { "_index": 80, "Id": "NonDamagingAilmentEffectLow", "Stat": "6299", "StatValues": "30", "Name": "Lesser Ailment Effect", "GemIcon": "Art/2DItems/Gems/Support/UnboundAilments.dds" },
-            { "_index": 81, "Id": "NonDamagingAilmentEffectMid", "Stat": "6299", "StatValues": "40", "Name": "Ailment Effect", "GemIcon": "Art/2DItems/Gems/Support/UnboundAilments.dds" },
-            { "_index": 82, "Id": "NonDamagingAilmentEffectHigh", "Stat": "6299", "StatValues": "50", "Name": "Greater Ailment Effect", "GemIcon": "Art/2DItems/Gems/Support/UnboundAilments.dds" },
-            { "_index": 83, "Id": "AddedColdLow", "Stat": "50, 51", "StatValues": "10, 16", "Name": "Lesser Added Cold", "GemIcon": "Art/2DItems/Gems/Support/AddedColdDamage.dds" },
-            { "_index": 84, "Id": "AddedColdMid", "Stat": "50, 51", "StatValues": "33, 49", "Name": "Added Cold", "GemIcon": "Art/2DItems/Gems/Support/AddedColdDamage.dds" },
-            { "_index": 85, "Id": "AddedColdHigh", "Stat": "50, 51", "StatValues": "73, 109", "Name": "Greater Added Cold", "GemIcon": "Art/2DItems/Gems/Support/AddedColdDamage.dds" },
-            { "_index": 86, "Id": "AddedLightningLow", "Stat": "57, 58", "StatValues": "1, 23", "Name": "Lesser Added Lightning", "GemIcon": "Art/2DItems/Gems/Support/AddedLightningDamage.dds" },
-            { "_index": 87, "Id": "AddedLightningMid", "Stat": "57, 58", "StatValues": "4, 75", "Name": "Added Lightning", "GemIcon": "Art/2DItems/Gems/Support/AddedLightningDamage.dds" },
-            { "_index": 88, "Id": "AddedLightningHigh", "Stat": "57, 58", "StatValues": "9, 168", "Name": "Greater Added Lightning", "GemIcon": "Art/2DItems/Gems/Support/AddedLightningDamage.dds" },
-            { "_index": 89, "Id": "WildStrikeSpecificEleWeakOnHitHigh", "Stat": "15090", "StatValues": "50", "Name": "Gilded Elemental Weakness on Hit", "GemIcon": "Art/2DItems/Gems/Support/MercGoldSupportGem.dds" },
-            { "_index": 90, "Id": "EleDamageWithAttacksLow", "Stat": "6062", "StatValues": "15", "Name": "Lesser Elemental Damage with Attacks", "GemIcon": "Art/2DItems/Gems/Support/WeaponElementalDamage.dds" },
-            { "_index": 91, "Id": "EleDamageWithAttacksMid", "Stat": "6062", "StatValues": "20", "Name": "Elemental Damage with Attacks", "GemIcon": "Art/2DItems/Gems/Support/WeaponElementalDamage.dds" },
-            { "_index": 92, "Id": "EleDamageWithAttacksHigh", "Stat": "6062", "StatValues": "30", "Name": "Greater Elemental Damage with Attacks", "GemIcon": "Art/2DItems/Gems/Support/WeaponElementalDamage.dds" },
-            { "_index": 93, "Id": "ShockChanceLow", "Stat": "658", "StatValues": "20", "Name": "Lesser Shock Chance", "GemIcon": "Art/2DItems/Gems/Support/MercSilverIntSupportGem.dds" },
-            { "_index": 94, "Id": "ShockChanceMid", "Stat": "658", "StatValues": "40", "Name": "Shock Chance", "GemIcon": "Art/2DItems/Gems/Support/MercSilverIntSupportGem.dds" },
-            { "_index": 95, "Id": "ShockChanceHigh", "Stat": "658", "StatValues": "60", "Name": "Greater Shock Chance", "GemIcon": "Art/2DItems/Gems/Support/MercSilverIntSupportGem.dds" },
-            { "_index": 96, "Id": "IgniteChanceLow", "Stat": "610", "StatValues": "20", "Name": "Lesser Ignite Chance", "GemIcon": "Art/2DItems/Gems/Support/ChancetoIgnite.dds" },
-            { "_index": 97, "Id": "IgniteChanceMid", "Stat": "610", "StatValues": "40", "Name": "Ignite Chance", "GemIcon": "Art/2DItems/Gems/Support/ChancetoIgnite.dds" },
-            { "_index": 98, "Id": "IgniteChanceHigh", "Stat": "610", "StatValues": "60", "Name": "Greater Ignite Chance", "GemIcon": "Art/2DItems/Gems/Support/ChancetoIgnite.dds" },
-            { "_index": 99, "Id": "FreezeChanceLow", "Stat": "454", "StatValues": "20", "Name": "Lesser Freeze Chance", "GemIcon": "Art/2DItems/Gems/Support/MercSilverDexIntSupportGem.dds" },
-            { "_index": 100, "Id": "FreezeChanceMid", "Stat": "454", "StatValues": "40", "Name": "Freeze Chance", "GemIcon": "Art/2DItems/Gems/Support/MercSilverDexIntSupportGem.dds" }
-        ];
-
-        const skills = [
-            { "_index": 0, "Id": 10986, "PossibleSupports": "", "Name": "Do Nothing", "Description": "This really shouldn't be here...", "HouseIcon": "" },
-            { "_index": 1, "Id": 900, "PossibleSupports": "0, 1, 42, 37, 38, 39, 71, 72, 73, 93, 94, 95, 142, 154, 155, 156, 168, 169, 170, 171, 172, 173, 234", "Name": "Spark", "Description": "Launches unpredictable sparks that move randomly until they hit an enemy or expire.", "HouseIcon": "" },
-            { "_index": 2, "Id": 2374, "PossibleSupports": "11, 231, 232, 233, 49, 50, 51, 58", "Name": "Conductivity", "Description": "Curses all targets in an area, lowering their lightning resistance and giving them a chance to be shocked when hit.", "HouseIcon": "" },
-            { "_index": 3, "Id": 5251, "PossibleSupports": "6, 7, 231, 232, 233, 235", "Name": "Orb of Storms", "Description": "Creates a stationary electrical orb that strikes enemies in its area of effect with beams of lightning that can then split to hit more enemies. ", "HouseIcon": "" },
-            { "_index": 4, "Id": 2969, "PossibleSupports": "42, 71, 72, 73, 231, 232, 233, 52, 53, 54, 11, 12, 93, 94, 95, 65, 66, 67, 168, 169, 170", "Name": "Greater Stormcall", "Description": "Sets markers at many locations. After a short duration, lightning strikes the markers, dealing damage around them.", "HouseIcon": "" },
-            { "_index": 5, "Id": 2970, "PossibleSupports": "42, 71, 72, 73, 231, 232, 233, 52, 53, 54, 11, 12, 93, 94, 95, 65, 66, 67, 168, 169, 170, 236", "Name": "Stormcall", "Description": "Sets a marker at a location. After a short duration, lightning strikes the marker, dealing damage around it.", "HouseIcon": "" },
-            { "_index": 6, "Id": 2250, "PossibleSupports": "42, 37, 38, 39, 71, 72, 73, 93, 94, 95", "Name": "[DNT] Unused", "Description": "[DNT] Unused", "HouseIcon": "" },
-            { "_index": 7, "Id": 2251, "PossibleSupports": "6, 7, 42, 37, 38, 39, 71, 72, 73, 93, 94, 95, 237, 86, 87, 88", "Name": "Arc", "Description": "An arc of lightning reaches from the caster to a targeted enemy and chains to other enemies, but not immediately back. Each time the arc chains, it will also chain a secondary arc to another enemy that the main arc has not already hit, which cannot chain further.", "HouseIcon": "" },
-            { "_index": 8, "Id": 1006, "PossibleSupports": "231, 232, 233, 37, 38, 39, 71, 72, 73, 93, 94, 95, 147, 148, 149, 150, 159, 238", "Name": "Greater Shock Nova", "Description": "Repeatedly casts rings of Lightning, followed by larger Lightning novas. Each effect deals lightning damage to enemies caught in the area. Damage from this skill is highly likely to shock.", "HouseIcon": "" },
-            { "_index": 9, "Id": 1206, "PossibleSupports": "231, 232, 233, 37, 38, 39, 52, 53, 54", "Name": "Lightning Warp", "Description": "Waits for a duration before teleporting to a targeted destination, with the duration based on distance and movement speed. When the teleport occurs, lightning damage is dealt both around the area of arrival and departure.", "HouseIcon": "" },
-            { "_index": 10, "Id": 5217, "PossibleSupports": "11, 231, 232, 233, 52, 53, 54", "Name": "Frost Bomb", "Description": "Creates a crystal that pulses with cold for a duration. Each pulse applies a debuff to nearby enemies for a secondary duration which reduces life regeneration rate, and also inflicts Cold Exposure. When the crystal's duration ends, it explodes, dealing heavy cold damage to enemies around it.", "HouseIcon": "" },
-            { "_index": 11, "Id": 5642, "PossibleSupports": "0, 1, 37, 38, 39, 68, 69, 70, 99, 100, 101, 142, 154, 155, 156", "Name": "Frostbolt", "Description": "Fires a slow-moving projectile that pierces through enemies, dealing cold damage.", "HouseIcon": "" },
-            { "_index": 12, "Id": 5670, "PossibleSupports": "37, 38, 39, 231, 232, 233, 49, 50, 51, 80, 81, 82, 55, 56, 57, 59, 60, 61", "Name": "Vortex", "Description": "An icy blast explodes around the caster, dealing cold damage to enemies, and leaving behind a whirling vortex which deals cold damage over time and chills enemies caught in it.", "HouseIcon": "" },
-            { "_index": 13, "Id": 62, "PossibleSupports": "37, 38, 39, 99, 100, 101, 80, 81, 82, 68, 69, 70, 102, 148, 149, 150, 168, 169, 170, 83, 84, 85, 239", "Name": "Ice Nova", "Description": "A circle of ice expands from the caster.", "HouseIcon": "" },
-            { "_index": 14, "Id": 63, "PossibleSupports": "37, 38, 39, 99, 100, 101, 80, 81, 82, 68, 69, 70, 102, 148, 149, 150, 168, 169, 170", "Name": "Ice Nova of Projection", "Description": "A circle of ice expands from the target.", "HouseIcon": "" },
-            { "_index": 15, "Id": 11006, "PossibleSupports": "37, 38, 39, 231, 232, 233, 49, 50, 51, 168, 169, 170", "Name": "Flame Wall", "Description": "Creates a wall of fire for a duration, which deals burning damage to everything in its area. Each enemy that enters the wall also receives a secondary burning debuff which persists for a short duration after leaving the wall. Non-enemy projectiles fired through the wall deal added fire damage and apply the wall's secondary debuff on hit.", "HouseIcon": "" },
-            { "_index": 16, "Id": 977, "PossibleSupports": "11, 231, 232, 233, 49, 50, 51, 159", "Name": "Frost Wall", "Description": "Creates a wall of ice which holds back enemies. Targets under the wall are damaged and pushed back.", "HouseIcon": "" },
-            { "_index": 17, "Id": 4906, "PossibleSupports": "11, 12, 231, 232, 233, 49, 51, 50, 68, 69, 70, 148, 149, 150, 80, 81, 82, 59, 60, 61, 83, 84, 85", "Name": "Icestorm", "Description": "Icy bolts rain down over the targeted area. They explode when landing, dealing damage to nearby enemies and chilling them, as well as causing patches of chilled ground.", "HouseIcon": "Art/2DArt/SkillIcons/HouseBardiyaSkill.dds" },
-            { "_index": 18, "Id": 2350, "PossibleSupports": "11, 231, 232, 233, 49, 50, 51, 58", "Name": "Flammability", "Description": "Curses all targets in an area, lowering their fire resistance and giving them a chance to be ignited when hit.", "HouseIcon": "" },
-            { "_index": 19, "Id": 2365, "PossibleSupports": "11, 231, 232, 233, 49, 50, 51, 58", "Name": "Frostbite", "Description": "Curses all targets in an area, lowering their cold resistance and giving them a chance to be frozen when hit.", "HouseIcon": "" },
-            { "_index": 20, "Id": 11618, "PossibleSupports": "0, 1, 37, 38, 39, 99, 100, 101, 148, 149, 150, 102, 154, 155, 156, 83, 84, 85", "Name": "Eye of Winter", "Description": "Fires a single eye projectile which constantly releases shard projectiles in a spiral. The shards will damage enemies they impact, dealing cold damage. The eye cannot damage enemies. When the eye dissipates or collides with terrain, it releases a faster spiral of extra shards.", "HouseIcon": "" },
-            { "_index": 21, "Id": 10224, "PossibleSupports": "65, 66, 67, 231, 232, 233, 99, 100, 101", "Name": "Frostblink", "Description": "Teleport to a location, damaging enemies and leaving Chilled ground in an area at both ends of the teleport.", "HouseIcon": "" },
-            { "_index": 22, "Id": 4839, "PossibleSupports": "65, 66, 67, 37, 38, 39, 49, 50, 51", "Name": "Flame Dash", "Description": "Teleport to a location, damaging enemies and leaving a trail of burning ground.", "HouseIcon": "" },
-            { "_index": 23, "Id": 4838, "PossibleSupports": "65, 66, 67, 37, 38, 39, 49, 50, 51, 55, 56, 57, 159, 168, 169, 170, 199", "Name": "Greater Flame Dash", "Description": "Repeatedly teleport to many locations, damaging enemies and leaving trails of dangerous burning ground.", "HouseIcon": "" },
-            { "_index": 24, "Id": 3047, "PossibleSupports": "231, 232, 233, 77, 78, 79, 37, 38, 39, 103, 104, 105, 96, 97, 98, 139, 140, 141, 162, 199", "Name": "Flameblast", "Description": "Channels to build up a large fiery explosion. The longer it is channelled, the larger the area of effect and damage of the explosion.", "HouseIcon": "" },
-            { "_index": 25, "Id": 3166, "PossibleSupports": "37, 38, 39, 231, 232, 233, 77, 78, 79, 55, 56, 57", "Name": "Flame Surge", "Description": "Strikes enemies with a surge of flame. Burning enemies are dealt more damage. Hitting an ignited enemy will create burning ground under them. Damage modifiers don't apply to this burning ground.", "HouseIcon": "" },
-            { "_index": 26, "Id": 8588, "PossibleSupports": "", "Name": "Flame Aegis", "Description": "Surrounds the caster with a fiery barrier which will absorb incoming fire damage up to a point, then break. This barrier will recharge over time.", "HouseIcon": "Art/2DArt/SkillIcons/HouseBardiyaSkill.dds" },
-            { "_index": 27, "Id": 3051, "PossibleSupports": "231, 232, 233, 77, 78, 79, 37, 38, 39, 162, 103, 104, 105, 96, 97, 98, 159, 199", "Name": "Vaal Flameblast", "Description": "Targets an area and builds up stages in that area based on cast speed. It explodes every 3 stages, until it reaches a maximum of 15. As it gains more stages, the area gets smaller but the damage gets higher.", "HouseIcon": "" },
-            { "_index": 28, "Id": 3, "PossibleSupports": "231, 232, 233, 0, 1, 96, 97, 98, 77, 78, 79, 103, 104, 105, 142, 154, 155, 156, 168, 169, 170, 22, 199", "Name": "Fireball", "Description": "Unleashes a ball of fire towards a target which explodes, damaging nearby foes.", "HouseIcon": "" },
-            { "_index": 29, "Id": 4, "PossibleSupports": "231, 232, 233, 0, 1, 96, 97, 98, 77, 78, 79, 103, 104, 105, 168, 169, 170, 199, 242", "Name": "Fireball of Impact", "Description": "Unleashes a ball of fire towards a targeted location which then explodes, damaging nearby foes.", "HouseIcon": "" },
-            { "_index": 30, "Id": 4968, "PossibleSupports": "231, 232, 233, 0, 1, 142, 37, 38, 39, 6, 7, 96, 97, 98, 148, 149, 150, 154, 155, 156, 151, 152, 153, 134, 77, 78, 79, 168, 169, 170, 199", "Name": "Rolling Magma", "Description": "Lob a fiery orb that deals area damage as it hits the ground. The skill chains, bouncing forward to deal damage multiple times.", "HouseIcon": "" },
-            { "_index": 31, "Id": 1955, "PossibleSupports": "", "Name": "Anger", "Description": "Casts an aura that grants added fire damage to attacks and spells.", "HouseIcon": "" },
-            { "_index": 32, "Id": 2954, "PossibleSupports": "", "Name": "Purity of Fire", "HouseIcon": "" }
-        ];
+        let supportGems = [];
+        let skills = [];
+        let currentPossibleSupports = [];
 
         const skillSelect = document.getElementById('skillSelect');
+        const skillDescriptionText = document.getElementById('skill-description-text');
         const supportSelects = [
             document.getElementById('support1'),
             document.getElementById('support2'),
             document.getElementById('support3')
         ];
-
-        let currentPossibleSupports = []; // Stores the _index values of possible supports for the selected skill
+        const supportListDisplay = document.getElementById('support-list-display');
 
         // Function to populate the skill select dropdown
         function populateSkillSelect() {
             skillSelect.innerHTML = '<option value="">-- Select a Skill --</option>'; // Add a default option
             skills.forEach(skill => {
                 const option = document.createElement('option');
-                option.value = skill._index;
+                option.value = skill._index; // Use _index for skill value
                 option.textContent = skill.Name;
                 skillSelect.appendChild(option);
             });
@@ -250,10 +201,11 @@
             selectElement.innerHTML = '<option value="">-- Select Support --</option>'; // Add a default option
 
             availableSupports.forEach(supportIndex => {
+                // Find support gem by _index
                 const supportGem = supportGems.find(gem => gem._index === supportIndex);
                 if (supportGem) {
                     const option = document.createElement('option');
-                    option.value = supportGem._index;
+                    option.value = supportGem._index; // Use _index for support value
                     option.textContent = supportGem.Name;
 
                     // Disable if already selected in another dropdown
@@ -265,6 +217,7 @@
             });
 
             // Re-select the value if it's still valid
+            // Check if currentSelectedValue is not empty, is in availableSupports, and is not selected by another dropdown
             if (currentSelectedValue && availableSupports.includes(parseInt(currentSelectedValue)) && !selectedValues.filter(val => val !== currentSelectedValue).includes(currentSelectedValue)) {
                 selectElement.value = currentSelectedValue;
             } else {
@@ -279,6 +232,40 @@
             supportSelects.forEach(selectElement => {
                 populateSupportSelect(selectElement, currentPossibleSupports, selectedSupportValues);
             });
+
+            // Update the display of selected support gem descriptions
+            updateSelectedSupportsDisplay();
+        }
+
+        // Function to update the display of selected support gem descriptions
+        function updateSelectedSupportsDisplay() {
+            supportListDisplay.innerHTML = ''; // Clear previous content
+
+            const selectedSupportIds = supportSelects.map(select => select.value).filter(id => id !== "");
+
+            if (selectedSupportIds.length === 0) {
+                supportListDisplay.innerHTML = '<p class="no-supports">No supports selected.</p>';
+                return;
+            }
+
+            const ul = document.createElement('ul');
+            selectedSupportIds.forEach(id => {
+                // Find support gem by _index
+                const support = supportGems.find(s => s._index == id);
+                if (support) {
+                    const li = document.createElement('li');
+                    const supportName = document.createElement('div');
+                    supportName.classList.add('support-name');
+                    supportName.textContent = support.Name;
+                    const supportDesc = document.createElement('div');
+                    supportDesc.classList.add('support-description');
+                    supportDesc.textContent = support.Description;
+                    li.appendChild(supportName);
+                    li.appendChild(supportDesc);
+                    ul.appendChild(li);
+                }
+            });
+            supportListDisplay.appendChild(ul);
         }
 
         // Event listener for skill selection change
@@ -286,16 +273,20 @@
             const selectedSkillIndex = skillSelect.value;
             const selectedSkill = skills.find(skill => skill._index === parseInt(selectedSkillIndex));
 
-            // Reset support selections
-            supportSelects.forEach(select => select.value = "");
-
-            if (selectedSkill && selectedSkill.PossibleSupports) {
-                // Split the string into an array of numbers
-                currentPossibleSupports = selectedSkill.PossibleSupports.split(',').map(Number);
+            if (selectedSkill) {
+                skillDescriptionText.textContent = selectedSkill.Description;
+                if (selectedSkill.PossibleSupports) {
+                    currentPossibleSupports = selectedSkill.PossibleSupports.split(',').map(Number);
+                } else {
+                    currentPossibleSupports = [];
+                }
             } else {
+                skillDescriptionText.textContent = 'Select a skill from the dropdown to see its details.';
                 currentPossibleSupports = [];
             }
 
+            // Reset support selections
+            supportSelects.forEach(select => select.value = "");
             updateSupportDropdowns(); // Update all support dropdowns
         });
 
@@ -304,9 +295,39 @@
             selectElement.addEventListener('change', updateSupportDropdowns);
         });
 
-        // Initial population of the skill select dropdown
-        populateSkillSelect();
-    </script>
+        // Function to load JSON data
+        async function loadJsonData() {
+            try {
+                // Fetch MercenarySkills.json
+                const skillsResponse = await fetch('MercenarySkills.json');
+                if (!skillsResponse.ok) {
+                    throw new Error(`HTTP error! status: ${skillsResponse.status} for MercenarySkills.json`);
+                }
+                skills = await skillsResponse.json();
 
+                // Fetch MercenarySupports.json
+                const supportsResponse = await fetch('MercenarySupports.json');
+                if (!supportsResponse.ok) {
+                    throw new Error(`HTTP error! status: ${supportsResponse.status} for MercenarySupports.json`);
+                }
+                supportGems = await supportsResponse.json();
+
+                // Once data is loaded, populate dropdowns and set initial display
+                populateSkillSelect();
+                skillDescriptionText.textContent = 'Select a skill from the dropdown to see its details.';
+                updateSupportDropdowns(); // Populate initial support options (empty until skill selected)
+
+            } catch (error) {
+                console.error('Error loading JSON data:', error);
+                skillSelect.innerHTML = '<option value="">Error loading skills</option>';
+                skillDescriptionText.textContent = 'Failed to load skill data. Please ensure MercenarySkills.json and MercenarySupports.json are available.';
+                supportSelects.forEach(select => select.innerHTML = '<option value="">Error loading supports</option>');
+                supportListDisplay.innerHTML = '<p class="error-message">Failed to load support data.</p>';
+            }
+        }
+
+        // Load data when the DOM content is fully loaded
+        document.addEventListener('DOMContentLoaded', loadJsonData);
+    </script>
 </body>
 </html>
